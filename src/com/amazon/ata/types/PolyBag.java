@@ -3,7 +3,7 @@ package com.amazon.ata.types;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class PolyBag extends Packaging{
+public class PolyBag extends Packaging {
     /**
      * Instantiates a new Packaging object.
      *
@@ -37,7 +37,7 @@ public class PolyBag extends Packaging{
         return this.volume.compareTo(item.getLength().multiply(item.getWidth()).multiply(item.getHeight())) > 0;
     }
 
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(getMaterial(), getMass());

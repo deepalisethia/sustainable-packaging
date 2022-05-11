@@ -3,7 +3,7 @@ package com.amazon.ata.types;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Box extends Packaging{
+public class Box extends Packaging {
     private BigDecimal length;
     private BigDecimal width;
     private BigDecimal height;
@@ -16,9 +16,9 @@ public class Box extends Packaging{
      */
     public Box(Material material, BigDecimal length, BigDecimal width, BigDecimal height) {
         super(Material.CORRUGATE);
-        this.length = length; //cm
-        this.width = width;   //cm
-        this.height = height; //cm
+        this.length = length;
+        this.width = width;
+        this.height = height;
 
 //        super(material, length, width, height);
     }

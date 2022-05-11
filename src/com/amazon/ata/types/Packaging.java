@@ -111,5 +111,8 @@ public class Packaging {
         return getMaterial() == packaging.getMaterial();
     }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(material);
+    }
 }
