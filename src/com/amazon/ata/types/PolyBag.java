@@ -37,6 +37,7 @@ public class PolyBag extends Packaging{
         return this.volume.compareTo(item.getLength().multiply(item.getWidth()).multiply(item.getHeight())) > 0;
     }
 
+    
     @Override
     public int hashCode() {
         return Objects.hash(getMaterial(), getMass());
