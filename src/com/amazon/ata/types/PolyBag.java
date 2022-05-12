@@ -40,7 +40,7 @@ public class PolyBag extends Packaging {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getMaterial(), getMass());
+        return Objects.hash(super.hashCode(), volume);
     }
 
 

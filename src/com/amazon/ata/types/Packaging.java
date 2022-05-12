@@ -10,7 +10,7 @@ import java.util.Objects;
  * Items can fit in the packaging so long as their dimensions are all smaller than
  * the packaging's dimensions.
  */
-public class Packaging {
+public abstract class Packaging {
     /**
      * The material this packaging is made of.
      */
@@ -34,9 +34,6 @@ public class Packaging {
     /**
      * Instantiates a new Packaging object.
      * @param material - the Material of the package
-     * @param length - the length of the package
-     * @param width - the width of the package
-     * @param height - the height of the package
      */
     public Packaging(Material material) {
         this.material = material;
@@ -67,18 +64,19 @@ public class Packaging {
      * @param item the item to test fit for
      * @return whether the item will fit in this packaging
      */
-    public boolean canFitItem(Item item) {
+    public abstract boolean canFitItem(Item item);
+//    {
 //        return this.length.compareTo(item.getLength()) > 0 &&
 //                this.width.compareTo(item.getWidth()) > 0 &&
 //                this.height.compareTo(item.getHeight()) > 0;
-        return false;
-    }
+//    }
 
     /**
      * Returns the mass of the packaging in grams. The packaging weighs 1 gram per square centimeter.
      * @return the mass of the packaging
      */
-    public BigDecimal getMass() {
+    public abstract BigDecimal getMass();
+//    {
 //        BigDecimal two = BigDecimal.valueOf(2);
 //
 //        // For simplicity, we ignore overlapping flaps
@@ -87,8 +85,8 @@ public class Packaging {
 //        BigDecimal longSidesArea = width.multiply(height).multiply(two);
 //
 //        return endsArea.add(shortSidesArea).add(longSidesArea);
-        return null;
-    }
+//        return null;
+//    }
 
     @Override
     public boolean equals(Object o) {

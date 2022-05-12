@@ -20,7 +20,7 @@ class Box {
 }
 
 class Packaging {
-    -Material material;
+    -Material material
     +getMaterial()
     +canFitItem()
     +equals()
