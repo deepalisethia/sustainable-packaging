@@ -35,6 +35,20 @@ public class Box extends Packaging {
 //        return super.getMass();
     }
 
+    public BigDecimal getHeight() {
+
+        return height;
+    }
+
+    public BigDecimal getLength() {
+        return length;
+    }
+
+    public BigDecimal getWidth() {
+
+        return width;
+    }
+
     public boolean canFitItem(Item item) {
         return this.length.compareTo(item.getLength()) > 0 &&
                 this.width.compareTo(item.getWidth()) > 0 &&

@@ -9,8 +9,7 @@ import com.amazon.ata.types.Item;
 import com.amazon.ata.types.Packaging;
 import com.amazon.ata.types.ShipmentOption;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Access data for which packaging is available at which fulfillment center.
@@ -19,15 +18,29 @@ public class PackagingDAO {
     /**
      * A list of fulfillment centers with a packaging options they provide.
      */
-    private List<FcPackagingOption> fcPackagingOptions;
+    private Map<FulfillmentCenter, Set<FcPackagingOption>> fcPackagingOptions;
+
 
     /**
      * Instantiates a PackagingDAO object.
      * @param datastore Where to pull the data from for fulfillment center/packaging available mappings.
      */
     public PackagingDAO(PackagingDatastore datastore) {
-        this.fcPackagingOptions =  new ArrayList<>(datastore.getFcPackagingOptions());
+        List<FcPackagingOption> fcPackagingOptionList =  new ArrayList<>(datastore.getFcPackagingOptions());
+        this.fcPackagingOptions = new HashMap<>();
+
+        for (FcPackagingOption fcPackagingOptionTemp : fcPackagingOptionList) {
+            if (fcPackagingOptions.containsKey(fcPackagingOptionTemp.getFulfillmentCenter())) {
+                fcPackagingOptions.get(fcPackagingOptionTemp.getFulfillmentCenter()).add(fcPackagingOptionTemp);
+            } else {
+                HashSet<FcPackagingOption> set = new HashSet<>();
+                set.add(fcPackagingOptionTemp);
+                fcPackagingOptions.put(fcPackagingOptionTemp.getFulfillmentCenter(), set);
+            }
+        }
+
     }
+
 
     /**
      * Returns the packaging options available for a given item at the specified fulfillment center. The API
@@ -45,34 +58,47 @@ public class PackagingDAO {
 
         // Check all FcPackagingOptions for a suitable Packaging in the given FulfillmentCenter
         List<ShipmentOption> result = new ArrayList<>();
-        boolean fcFound = false;
-        for (FcPackagingOption fcPackagingOption : fcPackagingOptions) {
-            Packaging packaging = fcPackagingOption.getPackaging();
-            String fcCode = fcPackagingOption.getFulfillmentCenter().getFcCode();
+//        boolean fcFound = false;
+        if (fcPackagingOptions.get(fulfillmentCenter) == null) {
+            throw new UnknownFulfillmentCenterException(
+                    String.format("Unknown FC: %s!", fulfillmentCenter.getFcCode()));
+        }
 
-            if (fcCode.equals(fulfillmentCenter.getFcCode())) {
-                fcFound = true;
+        for (FcPackagingOption fcOption : fcPackagingOptions.get(fulfillmentCenter)) {
+            Packaging packaging = fcOption.getPackaging();
                 if (packaging.canFitItem(item)) {
+//                    fcFound = true;
                     result.add(ShipmentOption.builder()
                             .withItem(item)
                             .withPackaging(packaging)
                             .withFulfillmentCenter(fulfillmentCenter)
                             .build());
                 }
+
+//            if (!fcFound) {
+//            throw new UnknownFulfillmentCenterException(
+//                    String.format("Unknown FC: %s!", fulfillmentCenter.getFcCode()));
+//        }
+
+// this is where the error is
+            if (result.isEmpty()) {
+                throw new NoPackagingFitsItemException(
+                        String.format("No packaging at %s fits %s!", fulfillmentCenter.getFcCode(), item));
             }
         }
-
-        // Notify caller about unexpected results
-        if (!fcFound) {
-            throw new UnknownFulfillmentCenterException(
-                    String.format("Unknown FC: %s!", fulfillmentCenter.getFcCode()));
-        }
-
-        if (result.isEmpty()) {
-            throw new NoPackagingFitsItemException(
-                    String.format("No packaging at %s fits %s!", fulfillmentCenter.getFcCode(), item));
-        }
-
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PackagingDAO that = (PackagingDAO) o;
+        return Objects.equals(fcPackagingOptions, that.fcPackagingOptions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fcPackagingOptions);
     }
 }
