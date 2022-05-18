@@ -33,7 +33,7 @@ public class PackagingDAO {
             if (fcPackagingOptions.containsKey(fcPackagingOptionTemp.getFulfillmentCenter())) {
                 fcPackagingOptions.get(fcPackagingOptionTemp.getFulfillmentCenter()).add(fcPackagingOptionTemp);
             } else {
-                HashSet<FcPackagingOption> set = new HashSet<>();
+                Set<FcPackagingOption> set = new HashSet<>();
                 set.add(fcPackagingOptionTemp);
                 fcPackagingOptions.put(fcPackagingOptionTemp.getFulfillmentCenter(), set);
             }
@@ -91,8 +91,12 @@ public class PackagingDAO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         PackagingDAO that = (PackagingDAO) o;
         return Objects.equals(fcPackagingOptions, that.fcPackagingOptions);
     }
