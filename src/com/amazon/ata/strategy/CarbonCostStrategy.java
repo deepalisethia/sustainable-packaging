@@ -21,8 +21,8 @@ public class CarbonCostStrategy implements CostStrategy {
     @Override
     public ShipmentCost getCost(ShipmentOption shipmentOption) {
         Packaging packaging = shipmentOption.getPackaging();
-        BigDecimal carbonCost = (this.carbonCostPerGram.
-                get(packaging.getMaterial()).multiply(packaging.getMass()));
+        BigDecimal carbonCost = this.carbonCostPerGram
+                .get(packaging.getMaterial()).multiply(packaging.getMass());
 
         return new ShipmentCost(shipmentOption, carbonCost);
     }
