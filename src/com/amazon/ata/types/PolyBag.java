@@ -28,8 +28,8 @@ public class PolyBag extends Packaging {
 //        return super.getMass();
     }
 
-    public BigDecimal getVolume(BigDecimal length, BigDecimal width, BigDecimal height) {
-        BigDecimal volume = length.multiply(width).multiply(height);
+    public BigDecimal getVolume() {
+//        BigDecimal volume = length.multiply(width).multiply(height);
         return volume;
     }
     @Override
@@ -40,7 +40,7 @@ public class PolyBag extends Packaging {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), volume);
+        return Objects.hash(super.hashCode(), getVolume());
     }
 
 

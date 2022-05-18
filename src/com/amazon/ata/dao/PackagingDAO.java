@@ -66,6 +66,7 @@ public class PackagingDAO {
 
         for (FcPackagingOption fcOption : fcPackagingOptions.get(fulfillmentCenter)) {
             Packaging packaging = fcOption.getPackaging();
+
                 if (packaging.canFitItem(item)) {
 //                    fcFound = true;
                     result.add(ShipmentOption.builder()
@@ -81,11 +82,11 @@ public class PackagingDAO {
 //        }
 
 // this is where the error is
+            }
             if (result.isEmpty()) {
                 throw new NoPackagingFitsItemException(
                         String.format("No packaging at %s fits %s!", fulfillmentCenter.getFcCode(), item));
             }
-        }
         return result;
     }
 
