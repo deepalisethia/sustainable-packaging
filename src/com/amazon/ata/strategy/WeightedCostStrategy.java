@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 public class WeightedCostStrategy implements CostStrategy {
     CarbonCostStrategy carbonCostStrategy;
     MonetaryCostStrategy monetaryCostStrategy;
-//    CostStrategy costStrategy;
 
     public WeightedCostStrategy(MonetaryCostStrategy monetaryCostStrategy,
                                  CarbonCostStrategy carbonCostStrategy) {
