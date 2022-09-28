@@ -58,15 +58,14 @@ class ShipmentServiceTest {
     @BeforeEach
     void setUp() {
         openMocks(this);
-
     }
+
     @Test
     void findBestShipmentOption_existentFCAndItemCanFit_returnsShipmentOption() throws UnknownFulfillmentCenterException, NoPackagingFitsItemException {
         // GIVEN & WHEN
         List<ShipmentOption> shipmentOptions = new ArrayList<>();
         ShipmentOption shipOption = ShipmentOption.builder()
                 .withItem(smallItem)
-                .withPackaging(null)
                 .withFulfillmentCenter(existentFC)
                 .build();
 
@@ -112,7 +111,7 @@ class ShipmentServiceTest {
         // GIVEN & WHEN & THEN
         assertThrows(RuntimeException.class, () -> {
             shipmentService.findShipmentOption(smallItem, nonExistentFC);
-        }, "Uknown Fulfillment Center.");
+        }, "Unknown Fulfillment Center.");
     }
 
     @Test
