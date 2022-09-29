@@ -1,4 +1,4 @@
-# Unit 3 Project: Sustainable Packaging
+# Sustainable Packaging
 
 * * *
 
